@@ -23,6 +23,10 @@ public abstract class CommonDeployableContainer<T extends CommonContainerConfigu
         containerConfig = config;
     }
 
+    protected T getConfiguration(){
+        return containerConfig;
+    }
+
     @Override
     public ProtocolDescription getDefaultProtocol() {
         return null;
@@ -36,14 +40,5 @@ public abstract class CommonDeployableContainer<T extends CommonContainerConfigu
     @Override
     public void undeploy(final Descriptor descriptor) throws DeploymentException {
         throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public void undeploy(final Archive archive) throws DeploymentException {
-    }
-
-    @Override
-    public ProtocolMetaData deploy(final Archive archive) throws DeploymentException {
-        return null;
     }
 }

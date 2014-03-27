@@ -34,6 +34,8 @@
         <version.junit.junit>4.11</version.junit.junit>
 
         <!-- override from parent -->
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
         <maven.compiler.argument.target>1.7</maven.compiler.argument.target>
         <maven.compiler.argument.source>1.7</maven.compiler.argument.source>
 

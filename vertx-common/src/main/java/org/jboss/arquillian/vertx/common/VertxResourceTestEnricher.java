@@ -15,9 +15,20 @@ import java.util.List;
  */
 public class VertxResourceTestEnricher implements TestEnricher {
 
+    private static final Object[] EMPTY_OBJ_ARRAY = new Object[0];
+
+    /**
+     * The Vert.x instance in use
+     */
     @Inject
     private Instance<Vertx> vertx;
 
+    /**
+     * Performs injection of the Vert.x instance in use into the test instance
+     * {@inheritDoc}
+     *
+     * @param testInstance
+     */
     @Override
     public void enrich(final Object testInstance) {
         // Find all fields annotated with @VertxResource
@@ -26,24 +37,31 @@ public class VertxResourceTestEnricher implements TestEnricher {
         // For each, inject
         for (final Field injectionPoint : injectionPoints) {
 
-
             // Get target type
+            final Class<?> fieldType = injectionPoint.getType();
 
-            
-
-
-            SecurityActions.setFieldAccessibility(injectionPoint, true);
-            try {
-                injectionPoint.set(testInstance, vertx.get());
-            } catch (final IllegalAccessException iae) {
-                throw new RuntimeException("Could not inject " + Vertx.class.getSimpleName() + "into test instance", iae);
+            // Inject Vertx
+            if (Vertx.class.isAssignableFrom(fieldType)) {
+                SecurityActions.setFieldAccessibility(injectionPoint, true);
+                try {
+                    injectionPoint.set(testInstance, vertx.get());
+                } catch (final IllegalAccessException iae) {
+                    throw new RuntimeException("Could not inject " + Vertx.class.getSimpleName() + "into test instance", iae);
+                }
             }
         }
     }
 
 
+    /**
+     * NOOP
+     * {@inheritDoc}
+     *
+     * @param method
+     * @return
+     */
     @Override
     public Object[] resolve(final Method method) {
-        return new Object[0];
+        return EMPTY_OBJ_ARRAY;
     }
 }
