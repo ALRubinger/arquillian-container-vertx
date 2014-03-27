@@ -36,32 +36,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Artifact Configuration -->
-    <artifactId>arquillian-vertx-embedded</artifactId>
+    <artifactId>arquillian-vertx-api</artifactId>
     <version>1.0.0-alpha-1-SNAPSHOT</version>
-    <name>Arquillian Vert.x Embedded Container</name>
-    <description>Vert.x Embedded integration for the Arquillian Project</description>
-
-    <!-- Properties -->
-    <properties>
-
-
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-vertx-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+    <name>Arquillian Vert.x API</name>
+    <description>API for Vert.x integration for the Arquillian Project</description>
 
 </project>
