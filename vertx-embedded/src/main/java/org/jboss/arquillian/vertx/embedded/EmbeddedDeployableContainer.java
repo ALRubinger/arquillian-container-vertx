@@ -3,13 +3,18 @@ package org.jboss.arquillian.vertx.embedded;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
 import org.jboss.arquillian.container.spi.client.container.LifecycleException;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
+import org.jboss.arquillian.container.spi.context.annotation.ContainerScoped;
 import org.jboss.arquillian.container.test.spi.client.protocol.Protocol;
+import org.jboss.arquillian.core.api.InstanceProducer;
+import org.jboss.arquillian.core.api.annotation.ApplicationScoped;
+import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.vertx.common.CommonDeployableContainer;
 import org.jboss.arquillian.vertx.common.DeploymentContext;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.vertx.java.core.AsyncResult;
 import org.vertx.java.core.Handler;
+import org.vertx.java.core.Vertx;
 import org.vertx.java.platform.PlatformLocator;
 import org.vertx.java.platform.PlatformManager;
 
@@ -30,19 +35,26 @@ public class EmbeddedDeployableContainer extends CommonDeployableContainer<Embed
     private static final String TEMP_FILE_SUFFIX = ".zip";
     private static final String DEPLOYMENT_CONTEXT_NAME = "Deployment";
 
+    @Inject
+    @ApplicationScoped
+    private InstanceProducer<Vertx> vertxInstanceProducer;
+
+    @Override
+    public Class<EmbeddedContainerConfiguration> getConfigurationClass() {
+        return EmbeddedContainerConfiguration.class;
+    }
+
     @Override
     public void setup(final EmbeddedContainerConfiguration config) {
         super.setup(config);
-
         final PlatformManager pm = PlatformLocator.factory.createPlatformManager();
         this.platformManager = pm;
-
     }
 
     @Override
     public void start() throws LifecycleException {
-
-
+        final Vertx vertx = platformManager.vertx();
+        vertxInstanceProducer.set(vertx);
     }
 
     @Override
@@ -90,7 +102,7 @@ public class EmbeddedDeployableContainer extends CommonDeployableContainer<Embed
     }
 
 
-    //TODO Left off here; blocking on result is done correctly?
+    //TODO Blocking on result is done correctly?
     private static class DeploymentHandler implements Handler<AsyncResult<String>>{
 
         private final ProtocolMetaData pmd;

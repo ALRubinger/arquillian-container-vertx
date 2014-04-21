@@ -3,8 +3,6 @@ package org.jboss.arquillian.vertx.common;
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
 import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
-import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
-import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 
 /**
@@ -14,12 +12,8 @@ public abstract class CommonDeployableContainer<T extends CommonContainerConfigu
 
     private T containerConfig;
 
-    @Override
-    public Class getConfigurationClass() {
-        return this.containerConfig.getClass();
-    }
-
     public void setup(T config) {
+        assert config !=null : "Config must not be null";
         containerConfig = config;
     }
 

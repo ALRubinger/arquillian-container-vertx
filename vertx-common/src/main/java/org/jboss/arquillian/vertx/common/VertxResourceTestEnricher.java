@@ -21,7 +21,7 @@ public class VertxResourceTestEnricher implements TestEnricher {
      * The Vert.x instance in use
      */
     @Inject
-    private Instance<Vertx> vertx;
+    private Instance<Vertx> vertxInstance;
 
     /**
      * Performs injection of the Vert.x instance in use into the test instance
@@ -44,7 +44,9 @@ public class VertxResourceTestEnricher implements TestEnricher {
             if (Vertx.class.isAssignableFrom(fieldType)) {
                 SecurityActions.setFieldAccessibility(injectionPoint, true);
                 try {
-                    injectionPoint.set(testInstance, vertx.get());
+                    final Vertx vertxValue = this.vertxInstance.get();
+                    assert vertxValue != null : "Vertx value to be injected is null; did you set an instance producer?";
+                    injectionPoint.set(testInstance, vertxValue);
                 } catch (final IllegalAccessException iae) {
                     throw new RuntimeException("Could not inject " + Vertx.class.getSimpleName() + "into test instance", iae);
                 }
