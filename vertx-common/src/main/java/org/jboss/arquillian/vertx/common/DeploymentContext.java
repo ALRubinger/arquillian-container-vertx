@@ -16,8 +16,8 @@ public class DeploymentContext extends NamedContext {
      */
     public DeploymentContext(final String name, final String deploymentId) {
         super(name);
-        assert name != null && !name.isEmpty() : "Name must be supplied";
-        assert deploymentId != null && !deploymentId.isEmpty() : "deploymentId must be supplied";
+        assert name != null && name.length()>0 : "Name must be supplied";
+        assert deploymentId != null && deploymentId.length()>0 : "deploymentId must be supplied";
         this.deploymentId = deploymentId;
     }
 }
